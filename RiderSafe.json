@@ -1,0 +1,1620 @@
+[
+    {
+        "id": "b63f21324159e93f",
+        "type": "tab",
+        "label": "Flow 6",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "473c2801ec184436",
+        "type": "json",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 250,
+        "y": 200,
+        "wires": [
+            [
+                "624e39e965e1afd0",
+                "0b80be83ccc33582",
+                "ee9fc9c6498150e5",
+                "71bf2003656b2f35",
+                "c39107ac32b64c7a"
+            ]
+        ]
+    },
+    {
+        "id": "a45d61785243d830",
+        "type": "worldmap",
+        "z": "b63f21324159e93f",
+        "name": "Jason",
+        "lat": "",
+        "lon": "",
+        "zoom": "17",
+        "layer": "OSMG",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "hide",
+        "layers": "hide",
+        "panit": "true",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "none",
+        "showgrid": "false",
+        "showruler": "false",
+        "allowFileDrop": "false",
+        "path": "/worldmap",
+        "overlist": "DR,CO,RA,DN",
+        "maplist": "OSMG,OSMC,EsriS,EsriT",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
+        "x": 590,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "cf55f4be6273a9ae",
+        "type": "worldmap-tracks",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "depth": "4",
+        "layer": "combined",
+        "smooth": true,
+        "x": 450,
+        "y": 220,
+        "wires": [
+            [
+                "a45d61785243d830"
+            ]
+        ]
+    },
+    {
+        "id": "3bc32daa9d08b1c2",
+        "type": "function",
+        "z": "b63f21324159e93f",
+        "name": "Extraer Lon y Lat",
+        "func": "let payload = msg.payload;\n\n// Si viene como string, parseamos a objeto JSON\nif (typeof payload === \"string\") {\n    try {\n        payload = JSON.parse(payload);\n    } catch (e) {\n        node.error(\"JSON inválido\", msg);\n        return null;\n    }\n}\n\n// Extrae lat y lon, por defecto 0 si no existen\nlet lat = payload.lat || 0;\nlet lon = payload.lon || 0;\n\nmsg.payload = {\n    name: 'Alexis',\n    lat: lat,\n    lon: lon,\n    layer: 'ruta',\n    popped: true,\n    popup: \"<img src='https://media.istockphoto.com/id/1180989037/es/vector/dibujos-animados-lindo-beagle-cachorro-mascota-personaje-vectorial.jpg?s=612x612&w=0&k=20&c=34iaT-nDANcG6ivNycmIbl7j9hMVE-2tHEhbxPvEgO4=' style='width:100px; height:100px; border-radius:10px;'><br><strong>Nombre:</strong> Alexis Evaristo Ramirez Perez<br><strong>Número de Celular:</strong> +52 772 121 0202<br><strong>Modelo de Moto:</strong> Yamaha FZ16<br><strong>Placa de Moto:</strong> XYZ-1234<br><strong>Número de Serie:</strong> 1HGCM82633A123456<br><strong>Número de Motor:</strong> MOTO123456789<br>\"\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 260,
+        "wires": [
+            [
+                "a45d61785243d830",
+                "cf55f4be6273a9ae"
+            ]
+        ]
+    },
+    {
+        "id": "2bf6594bbafa2793",
+        "type": "inject",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 90,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6a8a77699a46421d",
+        "type": "ui_template",
+        "z": "b63f21324159e93f",
+        "d": true,
+        "group": "27b17de860e5ddc1",
+        "name": "Mapa",
+        "order": 10,
+        "width": "21",
+        "height": "11",
+        "format": "<iframe src=\"http://127.0.0.1:1880/worldmap/\" style=\"width:100%; height:100%; border:0;\"></iframe>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 690,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "39a6317b478d0b15",
+        "type": "function",
+        "z": "b63f21324159e93f",
+        "name": "Datos Random",
+        "func": "// Node-RED function node\nif (msg.payload === true) {\n    msg.payload = {\n        bateriaH: Math.floor(Math.random() * 101),  // Valor entre 0 y 100\n        intL: Math.floor(Math.random() * -120),  // Valor entre 0 y 1 con dos decimales\n        intC: Math.floor(Math.random() * -120),\n        acc: Math.floor(Math.random() * 256),\n        name : \"Alexis\",\n        releState : \"0\",\n        lon : \"0\", \n        lat : \"0\"\n    };\n    return msg;\n}\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 100,
+        "y": 100,
+        "wires": [
+            [
+                "525650ca7c248e7e"
+            ]
+        ]
+    },
+    {
+        "id": "0b80be83ccc33582",
+        "type": "ui_gauge",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "group": "38dc5d3de4e8168f",
+        "order": 2,
+        "width": "3",
+        "height": "2",
+        "gtype": "gage",
+        "title": "Conexión LoRa",
+        "label": "dBm",
+        "format": "{{msg.payload.intL}}",
+        "min": "-120",
+        "max": "-86",
+        "colors": [
+            "#021450",
+            "#5000aa",
+            "#1478c8"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 500,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ee9fc9c6498150e5",
+        "type": "ui_gauge",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "group": "38dc5d3de4e8168f",
+        "order": 3,
+        "width": "3",
+        "height": "2",
+        "gtype": "gage",
+        "title": "Conexión Celular",
+        "label": "dBm",
+        "format": "{{msg.payload.intC}}",
+        "min": "-50",
+        "max": "-20",
+        "colors": [
+            "#021450",
+            "#5000aa",
+            "#1478c8"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 490,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "c39107ac32b64c7a",
+        "type": "ui_gauge",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "group": "38dc5d3de4e8168f",
+        "order": 1,
+        "width": "3",
+        "height": "2",
+        "gtype": "wave",
+        "title": "Bateria Heltec",
+        "label": "%",
+        "format": "{{msg.payload.battH}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#ff0000",
+            "#ffa800",
+            "#ffff00"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 500,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "71bf2003656b2f35",
+        "type": "ui_gauge",
+        "z": "b63f21324159e93f",
+        "d": true,
+        "name": "",
+        "group": "38dc5d3de4e8168f",
+        "order": 4,
+        "width": "3",
+        "height": "2",
+        "gtype": "gage",
+        "title": "Bateria LilLyGO",
+        "label": "%",
+        "format": "{{msg.payload.bateriaL}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#ff0000",
+            "#ffa800",
+            "#ffff00"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 500,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "6136622510d15583",
+        "type": "ui_template",
+        "z": "b63f21324159e93f",
+        "group": "78bf0e78ba9cdae0",
+        "name": "Moto",
+        "order": 3,
+        "width": "8",
+        "height": "8",
+        "format": "<iframe src=\"http://127.0.0.1:5501/esp32IMU3D-master/esp32IMU3D-master/data/index.html\" style=\"width:100%; height:100%; border:0;\"></iframe>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 690,
+        "y": 20,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "525650ca7c248e7e",
+        "type": "json",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 250,
+        "y": 100,
+        "wires": [
+            [
+                "c39107ac32b64c7a",
+                "71bf2003656b2f35",
+                "ee9fc9c6498150e5",
+                "0b80be83ccc33582",
+                "624e39e965e1afd0",
+                "2f8cdb9641ae6b15"
+            ]
+        ]
+    },
+    {
+        "id": "ef5d7378da02a1ec",
+        "type": "ui_button",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "group": "9a30eb61bc247894",
+        "order": 8,
+        "width": "2",
+        "height": "2",
+        "passthru": true,
+        "label": "Apagado",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#963232",
+        "className": "",
+        "icon": "",
+        "payload": "{\"group\":{\"show\":[\"RiderSafe_Desbloqueado\"],\"hide\":[\"RiderSafe_Bloqueado\"]}}",
+        "payloadType": "json",
+        "topic": "enable",
+        "topicType": "msg",
+        "x": 800,
+        "y": 540,
+        "wires": [
+            [
+                "eda301e86a1a88ae",
+                "189703022d96b32e"
+            ]
+        ]
+    },
+    {
+        "id": "f85d621c5ed215f6",
+        "type": "ui_button",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "group": "fc8302db0f15dba5",
+        "order": 8,
+        "width": "2",
+        "height": "2",
+        "passthru": true,
+        "label": "Encendido",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#3C783C",
+        "className": "",
+        "icon": "",
+        "payload": "{\"group\":{\"hide\":[\"RiderSafe_Desbloqueado\"],\"show\":[\"RiderSafe_Bloqueado\"]}}",
+        "payloadType": "json",
+        "topic": "on",
+        "topicType": "str",
+        "x": 790,
+        "y": 500,
+        "wires": [
+            [
+                "eda301e86a1a88ae",
+                "e9f650a9aab342d3"
+            ]
+        ]
+    },
+    {
+        "id": "eda301e86a1a88ae",
+        "type": "ui_ui_control",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "x": 960,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e9f650a9aab342d3",
+        "type": "change",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "on",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 960,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "189703022d96b32e",
+        "type": "change",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "off",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 960,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "158379d366969cbb",
+        "type": "mqtt in",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "topic": "status/init",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "3ffd3a10909d232b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 100,
+        "y": 180,
+        "wires": [
+            [
+                "2f8cdb9641ae6b15"
+            ]
+        ]
+    },
+    {
+        "id": "624e39e965e1afd0",
+        "type": "ui_gauge",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "group": "38dc5d3de4e8168f",
+        "order": 5,
+        "width": "3",
+        "height": "2",
+        "gtype": "gage",
+        "title": "Velocidad",
+        "label": "km/h ",
+        "format": "{{msg.payload.accy}}",
+        "min": 0,
+        "max": "120",
+        "colors": [
+            "#021450",
+            "#5000aa",
+            "#ff0000"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 480,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "10103b4a6a7a490a",
+        "type": "ui_button",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "group": "20b115052cbdf40a",
+        "order": 6,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "<i class=\"fa fa-home\" aria-hidden=\"true\"></i> Casa  ",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "{{msg.payload.background1}}",
+        "className": "<i class=\"fa fa-home\" aria-hidden=\"true\"></i> ",
+        "icon": "",
+        "payload": "{\"group\":{\"hide\":[\"RiderSafe_template\"],\"show\":[\"RiderSafe_Configurar_Perimetro\"]},\"button\":\"1\",\"crear\":true}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 190,
+        "y": 440,
+        "wires": [
+            [
+                "54101834f9e9de44",
+                "739c4747ad4e8bbc",
+                "788937c19b07cb90",
+                "ece1e14a93c0b42f"
+            ]
+        ]
+    },
+    {
+        "id": "8f4974e8fc13c648",
+        "type": "ui_button",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "group": "20b115052cbdf40a",
+        "order": 7,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "<i class=\"fa fa-graduation-cap\" aria-hidden=\"true\"></i> Escuela",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "{{msg.payload.background2}}",
+        "className": "",
+        "icon": "",
+        "payload": "{\"group\":{\"hide\":[\"RiderSafe_template\"],\"show\":[\"RiderSafe_Configurar_Perimetro\"]},\"button\":\"2\",\"crear\":true}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 230,
+        "y": 480,
+        "wires": [
+            [
+                "739c4747ad4e8bbc",
+                "788937c19b07cb90",
+                "ece1e14a93c0b42f",
+                "d718de2f67b7092c"
+            ]
+        ]
+    },
+    {
+        "id": "829e6aad50cbde4d",
+        "type": "ui_button",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "group": "72750509774e0425",
+        "order": 8,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "<i class=\"fa fa-briefcase\" aria-hidden=\"true\"></i> Trabajo",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "{{msg.payload.background3}}",
+        "className": "",
+        "icon": "",
+        "payload": "{\"group\":{\"hide\":[\"RiderSafe_template\"],\"show\":[\"RiderSafe_Configurar_Perimetro\"]},\"button\":\"3\",\"crear\":true}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 210,
+        "y": 520,
+        "wires": [
+            [
+                "788937c19b07cb90",
+                "04f9ca8877e8685c",
+                "ece1e14a93c0b42f",
+                "739c4747ad4e8bbc"
+            ]
+        ]
+    },
+    {
+        "id": "25c3c5f7c38abbcd",
+        "type": "ui_button",
+        "z": "b63f21324159e93f",
+        "d": true,
+        "name": "",
+        "group": "72750509774e0425",
+        "order": 9,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": " <i class=\"fa fa-plus\" aria-hidden=\"true\"></i> Agregar...",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "{{msg.payload.background4}}",
+        "className": "",
+        "icon": "",
+        "payload": "{\"group\":{\"hide\":[\"RiderSafe_template\"],\"show\":[\"RiderSafe_Configurar_Perimetro\"]}}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 260,
+        "y": 560,
+        "wires": [
+            [
+                "739c4747ad4e8bbc"
+            ]
+        ]
+    },
+    {
+        "id": "739c4747ad4e8bbc",
+        "type": "ui_ui_control",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "events": "all",
+        "x": 400,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8a1fbec857f616ad",
+        "type": "node-red-contrib-whatsapp-cmb-send-message",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "credtype": "account",
+        "account": "bce64132e8b7ace9",
+        "text": "payload",
+        "phonenumbervalue": "",
+        "apikeyvalue": "",
+        "apikeyinputtypemessage": "msg",
+        "phonenumberinputtypemessage": "msg",
+        "inputtypemessage": "msg",
+        "rejectssl": false,
+        "x": 1080,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8c174a9f12992b02",
+        "type": "ui_button",
+        "z": "b63f21324159e93f",
+        "d": true,
+        "name": "",
+        "group": "3939102f40480236",
+        "order": 2,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "<i class=\"fa fa-trash\" aria-hidden=\"true\"></i> ",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "red",
+        "className": "",
+        "icon": "",
+        "payload": "{\"group\":{\"hide\":[\"RiderSafe_template\"],\"show\":[\"RiderSafe_Configurar_Perimetro\"]}}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 170,
+        "y": 840,
+        "wires": [
+            [
+                "739c4747ad4e8bbc"
+            ]
+        ]
+    },
+    {
+        "id": "57ef5ad9a396a578",
+        "type": "ui_button",
+        "z": "b63f21324159e93f",
+        "d": true,
+        "name": "",
+        "group": "3939102f40480236",
+        "order": 1,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "<i class=\"fa fa-cog\" aria-hidden=\"true\"></i>",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#929292",
+        "className": "",
+        "icon": "",
+        "payload": "{\"group\":{\"hide\":[\"RiderSafe_template\"],\"show\":[\"RiderSafe_Configurar_Perimetro\"]}}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 170,
+        "y": 880,
+        "wires": [
+            [
+                "739c4747ad4e8bbc"
+            ]
+        ]
+    },
+    {
+        "id": "788937c19b07cb90",
+        "type": "function",
+        "z": "b63f21324159e93f",
+        "name": "Opciones desplegables",
+        "func": "// Inicializar estado si no existe\ncontext.estadoButton = context.estadoButton || false;\n\n// Alternar estado\ncontext.estadoButton = !context.estadoButton;\n\n// Definir mensaje basado en el estado\nlet msg2 = {}; // Mensaje para la geocerca\n\nif (msg.payload.button == \"1\") {\n    msg.payload = context.estadoButton ?\n        { \"group\": { \"hide\": [], \"show\": [\"RiderSafe_config\"] }, \"background1\": \"#0A1931\" } :\n        { \"group\": { \"hide\": [\"RiderSafe_config\", \"RiderSafe_Configurar_Perimetro\"], \"show\": [\"RiderSafe_template\"] }, \"background1\": \"#0A1931\" };\n} else if (msg.payload.button == \"2\") {\n    msg.payload = context.estadoButton ?\n        { \"group\": { \"hide\": [], \"show\": [\"RiderSafe_config\"] }, \"background2\": \"#0A1931\" } :\n        { \"group\": { \"hide\": [\"RiderSafe_config\", \"RiderSafe_Configurar_Perimetro\"], \"show\": [\"RiderSafe_template\"] }, \"background2\": \"#0A1931\" };\n} else if (msg.payload.button == \"3\") {\n    msg.payload = context.estadoButton ?\n        { \"group\": { \"hide\": [], \"show\": [\"RiderSafe_config\"] }, \"background3\": \"#0A1931\" } :\n        { \"group\": { \"hide\": [\"RiderSafe_config\", \"RiderSafe_Configurar_Perimetro\"], \"show\": [\"RiderSafe_template\"] }, \"background3\": \"#0A1931\" };\n}\n\n// Configurar msg2 para agregar o eliminar la geocerca\n\n\nreturn msg;",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 600,
+        "wires": [
+            [
+                "739c4747ad4e8bbc",
+                "10103b4a6a7a490a",
+                "8f4974e8fc13c648",
+                "25c3c5f7c38abbcd",
+                "829e6aad50cbde4d"
+            ],
+            [
+                "a45d61785243d830"
+            ]
+        ]
+    },
+    {
+        "id": "2f8cdb9641ae6b15",
+        "type": "debug",
+        "z": "b63f21324159e93f",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 280,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "320f28666f418d9c",
+        "type": "mqtt in",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "topic": "RS/state",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "3ffd3a10909d232b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 80,
+        "y": 220,
+        "wires": [
+            [
+                "2f8cdb9641ae6b15",
+                "c39107ac32b64c7a",
+                "ee9fc9c6498150e5",
+                "0b80be83ccc33582",
+                "624e39e965e1afd0",
+                "c53c4e5c1488d3a1",
+                "3bc32daa9d08b1c2"
+            ]
+        ]
+    },
+    {
+        "id": "82047960f90b73ba",
+        "type": "ui_worldmap",
+        "z": "b63f21324159e93f",
+        "group": "27b17de860e5ddc1",
+        "order": 1,
+        "width": "21",
+        "height": "11",
+        "name": "",
+        "lat": "",
+        "lon": "",
+        "zoom": "17",
+        "layer": "OSMC",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "hide",
+        "layers": "hide",
+        "panit": "true",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "none",
+        "showgrid": "false",
+        "showruler": "false",
+        "allowFileDrop": "false",
+        "path": "/worldmap",
+        "overlist": "DR,CO,RA,DN,HM",
+        "maplist": "OSMG,OSMC,EsriC,EsriS,EsriT,EsriDG,UKOS",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
+        "x": 700,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "f5d9deb4370e076c",
+        "type": "mqtt out",
+        "z": "b63f21324159e93f",
+        "d": true,
+        "name": "",
+        "topic": "RS/state",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "86cf61eced7937c8",
+        "x": 1020,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "54101834f9e9de44",
+        "type": "function",
+        "z": "b63f21324159e93f",
+        "name": "Generar Geocerca",
+        "func": "// Inicializar estado si no existe\ncontext.estadoGeocercas = context.estadoGeocercas || false;\n\n// Alternar estado\ncontext.estadoGeocercas = !context.estadoGeocercas;\n\nlet msg1 = {};\nlet msg2 = {};\nlet msg3 = {};\n\n// Solo se procesa si el mensaje indica que se quiere crear la geocerca\nif (msg.payload && msg.payload.crear === true) {\n    // Recuperar datos del flow\n    const nombreRuta = flow.get(\"nombreRutaSeleccionada\") || \"Ruta\";\n    const radio = flow.get(\"distanciaSeleccionada\") || 30;\n\n    // Coordenadas fijas (puedes hacerlas dinámicas si lo requieres)\n    const lat = 20.222658;\n    const lon = -99.215974;\n\n    // Preparar mensajes\n   \n    // Crear la geocerca (capa \"geocercas\")\n    msg1.payload = {\n        name: \"Casa\",\n        lat: lat,\n        lon: lon,\n        layer: \"geocercas\"\n    };\n\n    // Crear el perímetro asociado\n    msg2.payload = {\n        name: \"CasaP\",\n        lat: lat,\n        lon: lon,\n        radius: parseFloat(radio),\n        layer: \"geocercas\",\n        iconColor: \"#FF0000\",\n        stroke: true,\n        color: \"#FFA500\",\n        weight: 3,\n        fillColor: \"#FFFF00\",\n        fillOpacity: 0.5,\n        clickable: true\n    };\n\n    // Comando para ajustar el zoom\n    msg3.payload = {\n        command: {\n            zoom: 30\n        }\n    };\n\n    // Se marca que la geocerca ya fue creada\n    context.estadoGeocercas = true;\n\n    return [msg1, msg2, msg3];\n} else if (!context.estadoGeocercas) {\n    // Eliminar geocercas\n    msg1.payload = {\n        \"action\": \"delete\",\n        \"name\": \"Casa\",\n        \"deleted\": true\n    };\n\n    msg2.payload = {\n        \"action\": \"delete\",\n        \"name\": \"CasaP\",\n        \"deleted\": true\n    };\n\n    msg3.payload = {\n        command: {\n            zoom: 18\n        }\n};\n    return [msg1, msg2, msg3];\n}",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 380,
+        "wires": [
+            [
+                "a45d61785243d830"
+            ],
+            [
+                "a45d61785243d830"
+            ],
+            [
+                "a45d61785243d830"
+            ]
+        ]
+    },
+    {
+        "id": "44fa8d23799c83f1",
+        "type": "function",
+        "z": "b63f21324159e93f",
+        "name": "Animar moto",
+        "func": "const objetivos = [\n    { lat: 20.223011, lon: -99.215887 },\n    { lat: 20.223122, lon: -99.216732 },\n    { lat: 20.204970, lon: -99.220705 },\n    { lat: 20.227755, lon: -99.215841 },\n    { lat: 20.226677, lon:-99.208077 },\n    { lat: 20.230102, lon: -99.206591 }\n];\n\nconst objetivosder = [\n    { lat: 20.204741, lon: -99.220195 },\n    { lat: 20.220761, lon: -99.216975 },\n    { lat: 20.228750, lon: -99.215609 },\n    { lat: 20.227691, lon:-99.21578},\n    { lat: 20.227894, lon: -99.216732 },\n    { lat: 20.228820, lon: -99.216617 },\n    { lat: 20.228750, lon: -99.215609 }\n    \n];\n\nconst tolerancia = 0.0001;\n\nconst coincide = objetivos.some(objetivo => {\n    return Math.abs(msg.payload.lat - objetivo.lat) < tolerancia &&\n        Math.abs(msg.payload.lon - objetivo.lon) < tolerancia;\n});\n\nconst coincideder = objetivosder.some(objetivoder => {\n    return Math.abs(msg.payload.lat - objetivoder.lat) < tolerancia &&\n        Math.abs(msg.payload.lon - objetivoder.lon) < tolerancia;\n});\n\nif (coincide) {\n    msg.payload = { pitch: \"-45\" };\n    return msg;\n} else if (coincideder){\n    msg.payload = { pitch: \"45\" };\n    return msg;\n} else {\n    // Genera un número aleatorio entre -10 y 10\n    const randomPitch = (Math.random() * 20 - 15).toFixed(2); // Para 2 decimales\n    msg.payload = { pitch: randomPitch };\n    return msg;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 320,
+        "wires": [
+            [
+                "f5d9deb4370e076c"
+            ]
+        ]
+    },
+    {
+        "id": "3e514dfc30c11153",
+        "type": "function",
+        "z": "b63f21324159e93f",
+        "name": "Simular Ruta",
+        "func": "// Definición de rutas\nlet rutas = {\n    \"Casa-ITSOEH\": [ \n        { lat: 20.222643, lon: -99.216 }, \n        { lat: 20.223011, lon: -99.215887 }, \n        { lat: 20.223122, lon: -99.216732 }, \n        { lat: 20.218393, lon: -99.217722 }, \n        { lat: 20.204741, lon: -99.220195 }, \n        { lat: 20.20544, lon: -99.221867 } \n    ],\n    \"ITSOEH-Aurrera\": [ \n        { lat: 20.205497, lon: -99.221145 },\n        { lat: 20.204970, lon: -99.220705 },\n        { lat: 20.205754, lon: -99.219782 },\n        { lat: 20.209797, lon: -99.219014 },\n        { lat: 20.215150, lon: -99.218003 },\n        { lat: 20.218234, lon: -99.217454 },\n        { lat: 20.220761, lon: -99.216975 },\n        { lat: 20.220747, lon: -99.216217 }\n    ],\n    \"ITSOEH-Gasolinera\": [ \n        { lat: 20.205497, lon: -99.221145 },\n        { lat: 20.204970, lon: -99.220705 },\n        { lat: 20.205754, lon: -99.219782 },\n        { lat: 20.209797, lon: -99.219014 },\n        { lat: 20.215150, lon: -99.218003 },\n        { lat: 20.218234, lon: -99.217454 },\n        { lat: 20.220761, lon: -99.216975 },\n        { lat: 20.222255, lon: -99.21681 },\n        { lat: 20.225892, lon: -99.216221 },\n        { lat: 20.226531, lon: -99.21543 }\n    ],\n    \"ITSOEH-BBVA\": [\n        { lat: 20.205497, lon: -99.221145 },\n        { lat: 20.204970, lon: -99.220705 },\n        { lat: 20.205754, lon: -99.219782 },\n        { lat: 20.209797, lon: -99.219014 },\n        { lat: 20.215150, lon: -99.218003 },\n        { lat: 20.218234, lon: -99.217454 },\n        { lat: 20.220761, lon: -99.216976 },\n        { lat: 20.222255, lon: -99.21681 },\n        { lat: 20.225892, lon: -99.216221 },\n        { lat: 20.227691, lon: -99.21578 },\n        { lat: 20.22728,  lon: -99.21268 },\n        { lat: 20.226677, lon: -99.208077 },\n        { lat: 20.227461, lon: -99.206918 },\n        { lat: 20.230102, lon: -99.206591 },\n        { lat: 20.230183, lon: -99.2074071 }\n    ],\n    \"ITSOEH-Cavalli\": [ \n        { lat: 20.205497, lon: -99.221145 },\n        { lat: 20.204970, lon: -99.220705 },\n        { lat: 20.205754, lon: -99.219782 },\n        { lat: 20.209797, lon: -99.219014 },\n        { lat: 20.215150, lon: -99.218003 },\n        { lat: 20.218234, lon: -99.217454 },\n        { lat: 20.220761, lon: -99.216978 },\n        { lat: 20.222255, lon: -99.21681 },\n        { lat: 20.225892, lon: -99.216221 },\n        { lat: 20.227755, lon: -99.215841 },\n        { lat: 20.227894, lon: -99.216732 },\n        { lat: 20.228820, lon: -99.216617 },\n        { lat: 20.228750, lon: -99.215609 },\n        { lat: 20.228348, lon: -99.215759 }\n\n    ],\n    \"ITSOEH-COPPEL\": [\n        { lat: 20.205497, lon: -99.221145 },\n        { lat: 20.204970, lon: -99.220705 },\n        { lat: 20.205754, lon: -99.219782 },\n        { lat: 20.209797, lon: -99.219014 },\n        { lat: 20.215150, lon: -99.218003 },\n        { lat: 20.218234, lon: -99.217454 },\n        { lat: 20.220761, lon: -99.216975 },\n        { lat: 20.222255, lon: -99.21681 },\n        { lat: 20.225892, lon: -99.216221 },\n        { lat: 20.227691, lon: -99.21578 },\n        { lat: 20.22728,  lon: -99.21268 },\n        { lat: 20.226677, lon: -99.208077 },\n        { lat: 20.227461, lon: -99.206918 },\n        { lat: 20.230365, lon: -99.206462 },\n        { lat: 20.233062, lon: -99.201848 },\n        { lat: 20.235236, lon: -99.19815 },\n        { lat: 20.237795, lon: -99.193573 },\n        { lat: 20.23925, lon: -99.191182 },\n        { lat: 20.239899, lon: -99.190883 },\n        { lat: 20.240504, lon: -99.192686 },\n        { lat: 20.240714, lon: -99.193611 }\n    ],\n    \"CASA-TRABAJO\": [\n        { lat: 20.222527, lon: -99.216059 },\n        { lat: 20.223014, lon: -99.215894 },\n        { lat: 20.223136, lon: -99.216728 },\n        { lat: 20.223804, lon: -99.216607 },\n        { lat: 20.22404, lon: -99.219019 },\n        { lat: 20.224459, lon: -99.22235 },\n        { lat: 20.224694, lon: -99.225301 }\n    ],\n    \"CASA-Cavalli\": [\n        { lat: 20.222527, lon: -99.216059 },\n        { lat: 20.223014, lon: -99.215894 },\n        { lat: 20.223136, lon: -99.216728 },\n        { lat: 20.225892, lon: -99.216221 },\n        { lat: 20.228115, lon: -99.215695 },\n        { lat: 20.228216, lon: -99.215909 }\n    ]\n};\n\n// --- Cancelar la simulación ---\nif (msg.payload === false) {\n    context.set('running', false);\n    context.set('index', 0);\n    context.set('subIndex', 0);\n    context.set('storedPayload', null);\n    return null;\n}\n\n// --- Selección de nueva ruta (desde el dropdown) ---\nif (typeof msg.payload === 'string' && !msg.simulate) {\n    context.set('storedPayload', msg.payload);\n    context.set('index', 0);\n    context.set('subIndex', 0);\n    // La simulación se activa solo al presionar \"Trazar\"\n    context.set('running', false);\n    return null;\n}\n\n// --- Mensaje inicial de Trazar (sin propiedad simulate) ---\nif (msg.payload === true && !msg.simulate) {\n    // Activamos la simulación\n    context.set('running', true);\n    // Continuamos con el procesamiento\n}\n\n// --- Para mensajes de continuación (simulate:true) ---\n// Si se recibe simulate:true y la simulación no está activa, se descarta\nif (msg.simulate === true && !context.get('running')) {\n    return null;\n}\n\n// --- Procesar la simulación ---\nlet selectedRuta = context.get('storedPayload');\nif (!selectedRuta || !rutas[selectedRuta]) {\n    node.warn('Ruta no válida o no seleccionada');\n    return null;\n}\nlet ruta = rutas[selectedRuta];\nlet index = context.get('index') || 0;\nlet subIndex = context.get('subIndex') || 0;\nconst pasos = 10;\n\n// Si ya se completó la ruta, finalizamos la simulación\nif (index >= ruta.length - 1) {\n    context.set('running', false);\n    msg.payload = {\n        name: 'Simulación terminada',\n        lat: ruta[ruta.length - 1].lat,\n        lon: ruta[ruta.length - 1].lon,\n        layer: 'ruta',\n        popped: true,\n        popup: 'Simulación terminada.'\n    };\n    return [msg, null];\n}\n\n// Calcular la posición interpolada\nlet puntoInicio = ruta[index];\nlet puntoFinal = ruta[index + 1];\nlet factor = subIndex / pasos;\nlet lat = puntoInicio.lat + (puntoFinal.lat - puntoInicio.lat) * factor;\nlet lon = puntoInicio.lon + (puntoFinal.lon - puntoInicio.lon) * factor;\n\n// Actualizar índices\nsubIndex++;\nif (subIndex >= pasos) {\n    subIndex = 0;\n    index++;\n}\ncontext.set('index', index);\ncontext.set('subIndex', subIndex);\n\n// Configurar el mensaje de salida para el mapa\nmsg.payload = {\n    name: 'Simulación',\n    lat: lat,\n    lon: lon,\n    layer: 'ruta',\n    popped: true,\n    popup: \"<img src='https://media.istockphoto.com/id/1180989037/es/vector/dibujos-animados-lindo-beagle-cachorro-mascota-personaje-vectorial.jpg?s=612x612&w=0&k=20&c=34iaT-nDANcG6ivNycmIbl7j9hMVE-2tHEhbxPvEgO4=' style='width:100px; height:100px; border-radius:10px;'><br><strong>Nombre:</strong> Alexis Evaristo Ramirez Perez<br><strong>Número de Celular:</strong> +52 772 121 0202<br><strong>Modelo de Moto:</strong> Yamaha FZ16<br><strong>Placa de Moto:</strong> XYZ-1234<br><strong>Número de Serie:</strong> 1HGCM82633A123456<br><strong>Número de Motor:</strong> MOTO123456789<br>\"\n};\n\n// Preparar mensaje de continuación con simulate:true\nlet nextMsg = { payload: true, simulate: true };\nreturn [msg, nextMsg];\n",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 320,
+        "wires": [
+            [
+                "a45d61785243d830",
+                "44fa8d23799c83f1",
+                "6271e839b6014982"
+            ],
+            [
+                "3f0c8207e7822d42"
+            ]
+        ]
+    },
+    {
+        "id": "51db9c4b68c2cd71",
+        "type": "ui_dropdown",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "label": "Seleccionar Ruta",
+        "tooltip": "",
+        "place": "Rutas...",
+        "group": "78bf0e78ba9cdae0",
+        "order": 1,
+        "width": "6",
+        "height": "4",
+        "passthru": false,
+        "multiple": false,
+        "options": [
+            {
+                "label": "ITSOEH-Aurrera",
+                "value": "ITSOEH-Aurrera",
+                "type": "str"
+            },
+            {
+                "label": "ITSOEH-Gasolinera",
+                "value": "ITSOEH-Gasolinera",
+                "type": "str"
+            },
+            {
+                "label": "ITSOEH-BBVA",
+                "value": "ITSOEH-BBVA",
+                "type": "str"
+            },
+            {
+                "label": "ITSOEH-Cavalli",
+                "value": "ITSOEH-Cavalli",
+                "type": "str"
+            },
+            {
+                "label": "ITSOEH-COPPEL",
+                "value": "ITSOEH-COPPEL",
+                "type": "str"
+            },
+            {
+                "label": "Casa-ITSOEH",
+                "value": "Casa-ITSOEH",
+                "type": "str"
+            },
+            {
+                "label": "CASA-TRABAJO",
+                "value": "CASA-TRABAJO",
+                "type": "str"
+            },
+            {
+                "label": "CASA-Cavalli",
+                "value": "CASA-Cavalli",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 130,
+        "y": 400,
+        "wires": [
+            [
+                "3e514dfc30c11153"
+            ]
+        ]
+    },
+    {
+        "id": "3ee0c8ad52ce8f20",
+        "type": "ui_button",
+        "z": "b63f21324159e93f",
+        "name": "Trazar",
+        "group": "78bf0e78ba9cdae0",
+        "order": 2,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "Trazar",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 50,
+        "y": 300,
+        "wires": [
+            [
+                "3e514dfc30c11153"
+            ]
+        ]
+    },
+    {
+        "id": "3f0c8207e7822d42",
+        "type": "delay",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "500",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 410,
+        "y": 360,
+        "wires": [
+            [
+                "3e514dfc30c11153"
+            ]
+        ]
+    },
+    {
+        "id": "e57e1d13403e6bd6",
+        "type": "ui_button",
+        "z": "b63f21324159e93f",
+        "name": "Cancelar",
+        "group": "78bf0e78ba9cdae0",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "Cancelar",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 60,
+        "y": 340,
+        "wires": [
+            [
+                "3e514dfc30c11153",
+                "992fb2a0164bec4a"
+            ]
+        ]
+    },
+    {
+        "id": "992fb2a0164bec4a",
+        "type": "function",
+        "z": "b63f21324159e93f",
+        "name": "Cancelar (Borrado en mapa)",
+        "func": "msg.payload = {\n    \"action\": \"delete\",\n    \"name\": \"Simulación\",\n    \"deleted\": true\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 400,
+        "wires": [
+            [
+                "a45d61785243d830"
+            ]
+        ]
+    },
+    {
+        "id": "6271e839b6014982",
+        "type": "debug",
+        "z": "b63f21324159e93f",
+        "name": "debug 17",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "8dab53cc376000dc",
+        "type": "ui_text_input",
+        "z": "b63f21324159e93f",
+        "name": "Distancia",
+        "label": "Distancia (m)",
+        "tooltip": "",
+        "group": "24adf741415917e0",
+        "order": 2,
+        "width": "8",
+        "height": "2",
+        "passthru": true,
+        "mode": "number",
+        "delay": 300,
+        "topic": "distancia",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 820,
+        "y": 640,
+        "wires": [
+            [
+                "dc3cde22ba3618bd"
+            ]
+        ]
+    },
+    {
+        "id": "877bba9c7b4e8949",
+        "type": "ui_button",
+        "z": "b63f21324159e93f",
+        "name": "Editar",
+        "group": "24adf741415917e0",
+        "order": 4,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "Editar",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"group\":{\"show\":[\"RiderSafe_template\"],\"hide\":[\"RiderSafe_Configurar_Perimetro\",\"RiderSafe_config\"]},\"crear\":true}",
+        "payloadType": "json",
+        "topic": "crear_perimetro",
+        "topicType": "msg",
+        "x": 850,
+        "y": 680,
+        "wires": [
+            [
+                "dc3cde22ba3618bd"
+            ]
+        ]
+    },
+    {
+        "id": "623915be9a534efb",
+        "type": "ui_ui_control",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "events": "all",
+        "x": 1100,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0498eef01ef3578f",
+        "type": "ui_button",
+        "z": "b63f21324159e93f",
+        "name": "Cancelar",
+        "group": "24adf741415917e0",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "Salir",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"group\":{\"show\":[\"RiderSafe_template\"],\"hide\":[\"RiderSafe_Configurar_Perimetro\",\"RiderSafe_config\"]}}",
+        "payloadType": "json",
+        "topic": "crear_perimetro",
+        "topicType": "msg",
+        "x": 960,
+        "y": 640,
+        "wires": [
+            [
+                "623915be9a534efb",
+                "54101834f9e9de44",
+                "d718de2f67b7092c",
+                "04f9ca8877e8685c"
+            ]
+        ]
+    },
+    {
+        "id": "4a9959004c24f5ee",
+        "type": "ui_dropdown",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "label": "Seleccionar perimetro",
+        "tooltip": "",
+        "place": "Rutas...",
+        "group": "24adf741415917e0",
+        "order": 1,
+        "width": "8",
+        "height": "2",
+        "passthru": false,
+        "multiple": false,
+        "options": [],
+        "payload": "",
+        "topic": "topic.nombreRutaSeleccionada",
+        "topicType": "msg",
+        "className": "",
+        "x": 780,
+        "y": 600,
+        "wires": [
+            [
+                "dc3cde22ba3618bd"
+            ]
+        ]
+    },
+    {
+        "id": "ece1e14a93c0b42f",
+        "type": "function",
+        "z": "b63f21324159e93f",
+        "name": "listaGeocerca",
+        "func": "const boton = String(msg.payload?.button);\n\nconst mapaBotones = {\n    \"1\": \"Casa\",\n    \"2\": \"Escuela\",\n    \"3\": \"Trabajo\"\n};\n\nconst opciones = [\"Casa\", \"Escuela\", \"Trabajo\", \"Personal1\", \"Personal2\"];\nconst valorSeleccionado = mapaBotones[boton];\n\nif (!valorSeleccionado) {\n    node.warn(\"Botón inválido: \" + boton);\n    return null;\n}\n\nmsg.payload = valorSeleccionado;\n\nmsg.ui_control = {\n    options: opciones.map(op => ({ label: op, value: op }))\n};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 600,
+        "wires": [
+            [
+                "4a9959004c24f5ee"
+            ]
+        ]
+    },
+    {
+        "id": "dc3cde22ba3618bd",
+        "type": "function",
+        "z": "b63f21324159e93f",
+        "name": "Editar Geocerca",
+        "func": "// Si el mensaje viene del botón (con la propiedad crear) se deja pasar el mensaje\nif (msg.payload && msg.payload.crear === true) {\n    // Simplemente se reenvía el mensaje, asumiendo que la variable \"distanciaSeleccionada\"\n    // ya fue actualizada con el valor correspondiente desde el input o se mantiene por defecto.\n    return msg;\n}\n// Si el mensaje es numérico (viene del ui_text_input) se actualiza la variable en flow\nif (typeof msg.payload === \"number\") {\n    flow.set(\"distanciaSeleccionada\", msg.payload);\n}\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 600,
+        "wires": [
+            [
+                "54101834f9e9de44",
+                "d718de2f67b7092c",
+                "04f9ca8877e8685c"
+            ]
+        ]
+    },
+    {
+        "id": "c53c4e5c1488d3a1",
+        "type": "function",
+        "z": "b63f21324159e93f",
+        "name": "releState",
+        "func": "let payload = msg.payload;\n\n// Si el payload viene como string, lo parseamos a JSON\nif (typeof payload === \"string\") {\n    try {\n        payload = JSON.parse(payload);\n    } catch (e) {\n        node.error(\"JSON inválido\", msg);\n        return [null, null];\n    }\n}\n\nconst estado = payload.releState;\n\n// Salida 1 si es 0 o \"false\", salida 2 si es 1 o \"true\"\nif (estado === 0 || estado === \"0\" || estado === false || estado === \"false\") {\n    return [msg, null]; // Primera salida\n} else if (estado === 1 || estado === \"1\" || estado === true || estado === \"true\") {\n    return [null, msg]; // Segunda salida\n} else {\n    node.warn(\"Estado desconocido: \" + estado);\n    return [null, null]; // No se envía nada si no es válido\n}\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 540,
+        "wires": [
+            [
+                "f85d621c5ed215f6"
+            ],
+            [
+                "ef5d7378da02a1ec"
+            ]
+        ]
+    },
+    {
+        "id": "d718de2f67b7092c",
+        "type": "function",
+        "z": "b63f21324159e93f",
+        "name": "Generar Geocerca",
+        "func": "// Inicializar estado si no existe\ncontext.estadoGeocercas = context.estadoGeocercas || false;\n\n// Alternar estado\ncontext.estadoGeocercas = !context.estadoGeocercas;\n\nlet msg1 = {};\nlet msg2 = {};\nlet msg3 = {};\n\n// Solo se procesa si el mensaje indica que se quiere crear la geocerca\nif (msg.payload && msg.payload.crear === true) {\n    // Recuperar datos del flow\n    const nombreRuta = flow.get(\"nombreRutaSeleccionada\") || \"Ruta\";\n    const radio = flow.get(\"distanciaSeleccionada\") || 30;\n\n    // Coordenadas fijas (puedes hacerlas dinámicas si lo requieres)\n    const lat = 20.20544;\n    const lon = -99.221867;\n\n    // Preparar mensajes\n   \n    // Crear la geocerca (capa \"geocercas\")\n    msg1.payload = {\n        name: \"Escuela\",\n        lat: lat,\n        lon: lon,\n        layer: \"geocercas\"\n    };\n\n    // Crear el perímetro asociado\n    msg2.payload = {\n        name: \"EscuelaP\",\n        lat: lat,\n        lon: lon,\n        radius: parseFloat(radio),\n        layer: \"geocercas\",\n        iconColor: \"#FF0000\",\n        stroke: true,\n        color: \"#FFA500\",\n        weight: 3,\n        fillColor: \"#FFFF00\",\n        fillOpacity: 0.5,\n        clickable: true\n    };\n\n    // Comando para ajustar el zoom\n    msg3.payload = {\n        command: {\n            zoom: 30\n        }\n    };\n\n    // Se marca que la geocerca ya fue creada\n    context.estadoGeocercas = true;\n\n    return [msg1, msg2, msg3];\n} else if (!context.estadoGeocercas) {\n    // Eliminar geocercas\n    msg1.payload = {\n        \"action\": \"delete\",\n        \"name\": \"Escuela\",\n        \"deleted\": true\n    };\n\n    msg2.payload = {\n        \"action\": \"delete\",\n        \"name\": \"EscuelaP\",\n        \"deleted\": true\n    };\n\n    msg3.payload = {\n        command: {\n            zoom: 18\n        }\n};\n    return [msg1, msg2, msg3];\n}",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 420,
+        "wires": [
+            [
+                "a45d61785243d830"
+            ],
+            [
+                "a45d61785243d830"
+            ],
+            [
+                "a45d61785243d830"
+            ]
+        ]
+    },
+    {
+        "id": "04f9ca8877e8685c",
+        "type": "function",
+        "z": "b63f21324159e93f",
+        "name": "Generar Geocerca",
+        "func": "// Inicializar estado si no existe\ncontext.estadoGeocercas = context.estadoGeocercas || false;\n\n// Alternar estado\ncontext.estadoGeocercas = !context.estadoGeocercas;\n\nlet msg1 = {};\nlet msg2 = {};\nlet msg3 = {};\n\n// Solo se procesa si el mensaje indica que se quiere crear la geocerca\nif (msg.payload && msg.payload.crear === true) {\n    // Recuperar datos del flow\n    const nombreRuta = flow.get(\"nombreRutaSeleccionada\") || \"Ruta\";\n    const radio = flow.get(\"distanciaSeleccionada\") || 30;\n\n    // Coordenadas fijas (puedes hacerlas dinámicas si lo requieres)\n    const lat = 20.22471;\n    const lon = -99.225187;\n\n\n    // Preparar mensajes\n   \n    // Crear la geocerca (capa \"geocercas\")\n    msg1.payload = {\n        name: \"Trabajo\",\n        lat: lat,\n        lon: lon,\n        layer: \"geocercas\"\n    };\n\n    // Crear el perímetro asociado\n    msg2.payload = {\n        name: \"TrabajoP\",\n        lat: lat,\n        lon: lon,\n        radius: parseFloat(radio),\n        layer: \"geocercas\",\n        iconColor: \"#FF0000\",\n        stroke: true,\n        color: \"#FFA500\",\n        weight: 3,\n        fillColor: \"#FFFF00\",\n        fillOpacity: 0.5,\n        clickable: true\n    };\n\n    // Comando para ajustar el zoom\n    msg3.payload = {\n        command: {\n            zoom: 30\n        }\n    };\n\n    // Se marca que la geocerca ya fue creada\n    context.estadoGeocercas = true;\n\n    return [msg1, msg2, msg3];\n} else if (!context.estadoGeocercas) {\n    // Eliminar geocercas\n    msg1.payload = {\n        \"action\": \"delete\",\n        \"name\": \"Trabajo\",\n        \"deleted\": true\n    };\n\n    msg2.payload = {\n        \"action\": \"delete\",\n        \"name\": \"TrabajoP\",\n        \"deleted\": true\n    };\n\n    msg3.payload = {\n        command: {\n            zoom: 18\n        }\n};\n    return [msg1, msg2, msg3];\n}",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 480,
+        "wires": [
+            [
+                "a45d61785243d830"
+            ],
+            [
+                "a45d61785243d830"
+            ],
+            [
+                "a45d61785243d830"
+            ]
+        ]
+    },
+    {
+        "id": "0a0ee6e2f26d93e8",
+        "type": "inject",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 300,
+        "wires": [
+            [
+                "3cda6eb7c01bea22"
+            ]
+        ]
+    },
+    {
+        "id": "3cda6eb7c01bea22",
+        "type": "function",
+        "z": "b63f21324159e93f",
+        "name": "function 41",
+        "func": "let puntos = [\n    { lat: 20.205497, lon: -99.221145 },\n    { lat: 20.204970, lon: -99.220705 },\n    { lat: 20.205754, lon: -99.219782 },\n    { lat: 20.209797, lon: -99.219014 },\n    { lat: 20.215150, lon: -99.218003 },\n    { lat: 20.218234, lon: -99.217454 },\n    { lat: 20.220761, lon: -99.216978 },\n    { lat: 20.222255, lon: -99.21681 },\n    { lat: 20.225892, lon: -99.216221 },\n    { lat: 20.227755, lon: -99.215841 },\n    { lat: 20.227894, lon: -99.216732 },\n    { lat: 20.228820, lon: -99.216617 },\n    { lat: 20.228750, lon: -99.215609 },\n    { lat: 20.228348, lon: -99.215759 }\n];\n\nlet markers = puntos.map((p, i) => ({\n    name: `${i + 1}`, // Etiqueta del marcador\n    lat: p.lat,\n    lon: p.lon,\n    icon: \"fa-map-marker\",\n    layer: \"Puntos Enumerados\",\n    draggable: false\n}));\n\n// Enviar todos los marcadores juntos como una sola capa\nmsg.payload = markers;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 280,
+        "wires": [
+            [
+                "a45d61785243d830"
+            ]
+        ]
+    },
+    {
+        "id": "b20acaefb70fd4db",
+        "type": "inject",
+        "z": "b63f21324159e93f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"pitch\" : 12}",
+        "payloadType": "json",
+        "x": 870,
+        "y": 40,
+        "wires": [
+            [
+                "f5d9deb4370e076c"
+            ]
+        ]
+    },
+    {
+        "id": "f26024a118dcef49",
+        "type": "ui_text",
+        "z": "b63f21324159e93f",
+        "group": "74c6ecdba3f477e8",
+        "order": 0,
+        "width": "8",
+        "height": "1",
+        "name": "",
+        "label": "Usuario : Alexis",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Century Gothic,CenturyGothic,AppleGothic,sans-serif",
+        "fontSize": "25",
+        "color": "#000000",
+        "x": 660,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "27b17de860e5ddc1",
+        "type": "ui_group",
+        "name": "Mapa",
+        "tab": "4ca2961ca2f41a32",
+        "order": 7,
+        "disp": false,
+        "width": "21",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "38dc5d3de4e8168f",
+        "type": "ui_group",
+        "name": "Control",
+        "tab": "4ca2961ca2f41a32",
+        "order": 1,
+        "disp": false,
+        "width": "15",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "78bf0e78ba9cdae0",
+        "type": "ui_group",
+        "name": "template",
+        "tab": "4ca2961ca2f41a32",
+        "order": 9,
+        "disp": false,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9a30eb61bc247894",
+        "type": "ui_group",
+        "name": "Bloqueado",
+        "tab": "4ca2961ca2f41a32",
+        "order": 5,
+        "disp": false,
+        "width": "2",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "fc8302db0f15dba5",
+        "type": "ui_group",
+        "name": "Desbloqueado",
+        "tab": "4ca2961ca2f41a32",
+        "order": 6,
+        "disp": false,
+        "width": "2",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3ffd3a10909d232b",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "https://test.mosquitto.org/",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "20b115052cbdf40a",
+        "type": "ui_group",
+        "name": "geo2",
+        "tab": "4ca2961ca2f41a32",
+        "order": 2,
+        "disp": false,
+        "width": "2",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "72750509774e0425",
+        "type": "ui_group",
+        "name": "geo3",
+        "tab": "4ca2961ca2f41a32",
+        "order": 3,
+        "disp": false,
+        "width": "2",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "bce64132e8b7ace9",
+        "type": "node-red-contrib-whatsapp-cmb-account",
+        "name": "Test"
+    },
+    {
+        "id": "3939102f40480236",
+        "type": "ui_group",
+        "name": "config",
+        "tab": "4ca2961ca2f41a32",
+        "order": 4,
+        "disp": false,
+        "width": "1",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "86cf61eced7937c8",
+        "type": "mqtt-broker",
+        "name": "Rasp",
+        "broker": "192.168.39.184",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "24adf741415917e0",
+        "type": "ui_group",
+        "name": "Configurar Perimetro",
+        "tab": "4ca2961ca2f41a32",
+        "order": 10,
+        "disp": false,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "74c6ecdba3f477e8",
+        "type": "ui_group",
+        "name": "Usuario",
+        "tab": "4ca2961ca2f41a32",
+        "order": 8,
+        "disp": false,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4ca2961ca2f41a32",
+        "type": "ui_tab",
+        "name": "RiderSafe",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
