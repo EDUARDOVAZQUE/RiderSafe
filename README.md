@@ -1,24 +1,8 @@
-# 🌐 Título del Proyecto
-
-## 📄 Descripción
+# 🏍️ RIDERSAFE 🔒
 
 Breve descripción del proyecto de IoT, incluyendo su propósito, alcance y las tecnologías utilizadas.
 
-### 🧠 Diagrama del Proyecto
-
-Incluye aquí un diagrama detallado con la topología lógica del sistema y el flujo de envío/recepción de información entre todos los módulos.
-
-> Ejemplo:
-> ![Diagrama de la topología](Diagramas/topologia_logica.png)
-
----
-
 ## 📁 Estructura de Carpetas
-
-
----
-
-## 🧪 Software
 
 ### 🛠 Tecnologías Utilizadas
 
