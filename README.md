@@ -6,10 +6,10 @@ RiderSafe es un sistema de geolocalización y monitoreo en tiempo real diseñado
 ---
 
 ## 📁 Estructura de Carpetas
-/Software → Archivos .ino, scripts, dashboard
-/Hardware → Fichas técnicas, modelos
-/Documentacion → Manuales, reportes técnicos
-/Diagramas → Diagramas de esquemáticos, flujo de datos
+- /Software → Archivos .ino, scripts, dashboard
+- /Hardware → Fichas técnicas, modelos
+- /Documentacion → Manuales, reportes técnicos
+- /Diagramas → Diagramas de esquemáticos, flujo de datos
 
 ---
 
