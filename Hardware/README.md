@@ -17,6 +17,8 @@ Microcontrolador ESP32 con pantalla OLED integrada y módulo LoRa SX1276 para co
 - Voltaje de operación: 3.3V
 
 🔗 [Ficha técnica – Heltec WiFi LoRa 32 V2](https://heltec.org/project/wifi-lora-32v2/)
+![Logo de Heltec](Hardware/wifi-lora=32=v2-1.png)
+
 
 ---
 
@@ -72,10 +74,22 @@ Permite la comunicación entre dispositivos con diferentes niveles de voltaje (3
 🔗 *Enlace genérico según el módulo utilizado. (Puedes incluir tu proveedor específico si lo tienes)*
 
 ---
+---
 
-## ⚙️ Diagrama de Interconexión
+### 6. Regulador de Voltaje Buck LM2596 ×1
 
-> 💡 Recomendación: agrega aquí un esquema de conexión como `hardware/esquematico_general.png` para visualizar cómo se conectan todos los módulos entre sí.
+Módulo convertidor **step-down** (reductor de voltaje) basado en el chip LM2596 de Texas Instruments, utilizado para alimentar los módulos electrónicos desde fuentes como la batería de una motocicleta.
 
-```md
-![Diagrama general de conexiones](../diagramas/esquematico_general.png)
+- **Uso en el proyecto:**
+  - Reduce los 12–14V del sistema eléctrico de la moto a 5V estables
+  - Alimenta de forma segura la LilyGO SIM7600G-H y otros componentes sensibles
+- **Voltaje de entrada recomendado:** 7V a 24V DC
+- **Voltaje de salida típico:** Ajustable, comúnmente calibrado a 5V
+- **Corriente de salida:** Hasta 2A
+- **Frecuencia de conmutación:** 150 kHz
+
+🔗 [Ficha técnica oficial – LM2596 (Texas Instruments)](https://www.ti.com/lit/ds/symlink/lm2596.pdf)
+
+> ⚠️ **Precaución**: Algunos módulos LM2596 económicos requieren calibración manual. Gira el potenciómetro con cuidado y confirma la salida de 5.00V exactos antes de conectar tu placa.
+
+
