@@ -1,145 +1,120 @@
-# 🏍️ RIDERSAFE 🔒
+# 🏍️ RIDERSAFE 🏍️
+### *Sistema Inteligente de Seguridad y Monitoreo para Motocicletas*
 
-Breve descripción del proyecto de IoT, incluyendo su propósito, alcance y las tecnologías utilizadas.
+RiderSafe es un sistema de geolocalización y monitoreo en tiempo real diseñado para mejorar la seguridad de las motocicletas en Mixquiahuala de Juárez, Hidalgo, México. Este sistema responde al incremento sostenido del robo de motocicletas en la región, utilizando tecnologías como LoRa, GPS y conectividad 4G para rastrear, controlar y actuar ante eventos sospechosos o situaciones de robo.
+
+---
 
 ## 📁 Estructura de Carpetas
+/Software → Archivos .ino, scripts, dashboard
+/Hardware → Fichas técnicas, modelos
+/Documentacion → Manuales, reportes técnicos
+/Diagramas → Diagramas de esquemáticos, flujo de datos
 
-### 🛠 Tecnologías Utilizadas
+---
 
-- Lenguaje: C++ (Arduino), Python (Raspberry Pi), Bash (PC)
-- Frameworks: PlatformIO, Flask, MQTT Mosquitto
-- Base de Datos: MySQL, InfluxDB
-- Herramientas: Grafana, Zabbix, Node-RED
+### 🧠 Tecnologías Utilizadas
 
-### ✨ Funcionalidades
+- Lenguaje de programación: C++ (Arduino IDE), HTML, CSS, JavaScript  
+- Protocolos de comunicación: LoRa, I2C, SPI, MQTT, ESPNOW, AT Commands  
+- Sensores y módulos: MPU6050, GPS, SIM7600G-H  
+- Servicios en la nube: Mosquitto (servidor MQTT)  
+- Interfaces de usuario: Dashboard web con NODE-RED  
 
-- Comunicación LoRa y SIM800 para transmisión de datos
-- Recolección de datos ambientales
-- Almacenamiento de datos en la nube/local
-- Visualización en dashboards (Grafana)
-- Monitorización con alertas (Zabbix)
+---
 
-### 📦 Estructura del Código
+### ⚙️ Funcionalidades
 
-Dispositivos utilizados:
-
-- Heltec LoRa 32
-- Raspberry Pi
-- LilyGO SIMxxx
-- PC
-
-Descripción por módulos:
-
-- `/main.ino`: captura sensores y envía por LoRa
-- `/mqtt.py`: recibe datos en Raspberry y reenvía por MQTT
-- `/dashboard_setup/`: configuración de paneles en Grafana
-- `/zabbix_agentd.conf`: configuración para monitoreo
+- Geolocalización precisa vía GPS  
+- Comunicación de largo alcance con LoRa  
+- Transmisión de datos por 4G a la nube vía MQTT  
+- Detección de inclinación y aceleración con MPU6050  
+- Activación remota de un cortacorriente  
+- Visualización de estado de batería, señal LoRa, estado del relé  
+- Modularidad para visualizar datos y controlar el sistema desde una aplicación web o dashboard  
 
 ---
 
 ## 🖥️ Instrucciones de Instalación
 
-### 🔌 En Heltec LoRa 32
+### 🔌 En Heltec LoRa 32 v2 (Llavero Portátil)
 
-1. Instalar PlatformIO
-2. Subir `main.ino`
-3. Conectar sensores según el esquema
+1. Cargar código `LlaveroPortatilv3`  
+2. Instalar en la PCB impresa 1  
+
+### 🔁 En Heltec LoRa 32 v2 (Nodo Puente)
+
+1. Cargar código `Heltec-gateway`  
+2. Instalar en la PCB impresa 2  
+
+### 🌐 En LilyGO (Nodo SIM7600)
+
+1. Cargar código `SendMQTT_data`  
+2. Instalar en la PCB impresa 2  
 
 ### 🧠 En Raspberry Pi
 
-1. Instalar Mosquitto y Python3
-2. Ejecutar `mqtt.py`
-3. Configurar red Wi-Fi
+1. Instalar IoT Stack  
+2. Importar JSON con el nombre `RiderSafe.json`  
+3. Ejecutar script para Grafana  
 
 ---
-
-## 🔩 Hardware
-
-### 📋 Componentes Utilizados
-
-- Heltec LoRa 32
-- Raspberry Pi 4
-- Sensor DHT11
-- Sensor GPS
-- Módulo SIM800L
-- Actuadores (relevadores, LED)
-
-### 📊 Esquemáticos
-
-> ![Esquema del circuito](Hardware/esquematico_heltec.png)
 
 ### ⚙️ Configuración
 
-Conecta los sensores de la siguiente forma:
-- DHT11: GPIO 21
-- SIM800: UART
-- GPS: UART2
+- Usar el regulador de voltaje a **5V**, establecer ese voltaje antes de la instalación  
+- Algunos sensores **MPU6050** no son reconocidos por la biblioteca Adafruit  
+  - Cargar código `who_am_i` y reemplazar dirección del dispositivo en la librería  
 
 ---
-
-## 🌐 Interconexión de Red
-
-### 🧷 Cableada
-
-- Raspberry conectada a PC por USB
-- Módulo SIM800 conectado vía serial
-
-### 📶 Inalámbrica
-
-- LoRa: comunicación entre nodos
-- Wi-Fi: conexión del Raspberry a la nube
-- Bluetooth/NFC: para lectura desde celular
-
-> ![Topología física](Diagramas/topologia_fisica.png)
-
----
-
-## ✅ Funcionabilidad
 
 ### 📸 Escenarios de Uso
 
-> Agrega fotos o gifs aquí  
-> ![Uso del sistema](Documentacion/uso.gif)
+🎥 Mira la demostración en video:  
+[![Ver Video](https://img.youtube.com/vi/g3GmbGhdLP4/0.jpg)](https://youtu.be/g3GmbGhdLP4)
 
-- Usuario revisa datos en Grafana
-- Admin recibe alertas por Zabbix
+---
 
 ### 📘 Casos de Uso
 
-- Usuario final: observa variables en tiempo real
-- Administrador: configura nodos y alertas
-- Proveedor: da mantenimiento a hardware remoto
+- **Usuario Final**: consulta ubicación y estado desde app web, puede activar o desactivar relé remotamente.  
+- **Administrador**: monitorea estados, accede a estadísticas y análisis.  
+- **Proveedor**: configura módulos, actualiza firmware, da mantenimiento.  
 
 ---
 
 ## 🚧 Limitaciones y Mejoras Futuras
 
-**Limitaciones actuales:**
+### ⚠️ Limitaciones actuales
 
-- No soporta reconexión automática al LoRa
-- El monitoreo no es en tiempo real en zonas sin red
+- Limitada tolerancia a pérdida de energía prolongada  
+- Falta de protecciones de alto o bajo voltaje  
+- El dashboard funciona con limitaciones sin internet  
+- Inestabilidad e incompatibilidad de datos en Grafana  
 
-**Mejoras propuestas:**
+### 🌱 Mejoras propuestas
 
-- Añadir almacenamiento local cuando no haya conexión
-- Rediseñar interfaz web
-- Mejorar duración de batería
+- Añadir almacenamiento local cuando no haya conexión  
+- Rediseñar interfaz web  
+- Mejorar duración de batería  
+- Agregar protecciones contra alto voltaje  
+- Encendido y apagado automático de la motocicleta  
+- Implementar batería de emergencia  
+- Medidor de batería en ambos dispositivos  
+- Relevador lógico de 3.3V especializado  
+- Agregar más casos para alertas  
+- Uso de PCB impresa  
 
 ---
 
 ## 🤝 Contribuciones
 
-¿Quieres aportar al proyecto?  
-1. Haz un fork
-2. Crea tu rama: `git checkout -b nueva-funcionalidad`
-3. Haz un commit: `git commit -am 'Agrega nueva funcionalidad'`
-4. Abre un pull request
+¿Quieres aportar al proyecto?
 
----
+1. Haz un fork del repositorio  
+2. Crea una nueva rama
+3. Realiza cambios y commits descriptivos
+4. Reporta errores o mejoras en la sección "Issues"
 
 ## 📜 Licencia
-
-Este proyecto está licenciado bajo la MIT License. Consulta el archivo [LICENSE](LICENSE) para más detalles.
-![Versión](https://img.shields.io/badge/version-1.0-blue)
-![Licencia](https://img.shields.io/badge/licencia-MIT-green)
-![LoRa](https://img.shields.io/badge/comunicación-LoRa-yellow)
+---
