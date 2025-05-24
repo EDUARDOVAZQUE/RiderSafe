@@ -17,7 +17,7 @@ Microcontrolador ESP32 con pantalla OLED integrada y módulo LoRa SX1276 para co
 - Voltaje de operación: 3.3V
 
 🔗 [Ficha técnica – Heltec WiFi LoRa 32 V2](https://heltec.org/project/wifi-lora-32v2/)
-![Logo de Heltec](Hardware/wifi-lora=32=v2-1.png)
+![Logo de Heltec](Hardware/wifi-lora-32-v2-1.png)
 
 
 ---
